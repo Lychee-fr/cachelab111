@@ -1,0 +1,32 @@
+report/report.md
+  s_4cd8b9a057af58::t_09c80d23e8baf3 13,18
+README.md
+  s_4cd8b9a057af58::t_09c80d23e8baf3 54,105-117,588
+test/README.md
+  s_4cd8b9a057af58::t_09c80d23e8baf3 27-41,45
+.github/workflows/autograding.yml
+  s_4cd8b9a057af58::t_09c80d23e8baf3 1-29
+test/test_actions_grading.py
+  s_4cd8b9a057af58::t_578b309bfa5bba 1-82
+test/test_local_grading.py
+  s_4cd8b9a057af58::t_578b309bfa5bba 5,231-251
+  s_4cd8b9a057af58::t_c5b3bda11738b4 252
+test/actions_test.py
+  s_4cd8b9a057af58::t_09c80d23e8baf3 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "165f3b191d09aaa15f54f205c97785c6fa6c8372",
+  "prompts": {},
+  "sessions": {
+    "s_4cd8b9a057af58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c33d-7094-72d1-99a1-8d861e8eb696",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Schrieffer <xjack875@gmail.com>"
+    }
+  }
+}
