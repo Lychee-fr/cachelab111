@@ -1,0 +1,19 @@
+.vscode/
+*.o
+main
+demo
+.csim_results
+gemm_traces/
+csim-ref.c
+csim
+handin.tar
+# Legacy credentials are ignored for users upgrading from the online version.
+.access_key
+__pycache__
+.overall_results
+.pytest_cache
+.last_submit_time
+.legality_gemm/
+/workspaces
+*.dSYM
+printTrace
