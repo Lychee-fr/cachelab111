@@ -10,11 +10,12 @@
 
 <!-- 保留两位小数，四舍五入 -->
 
-本地评测截图：
+评测截图（本地或 GitHub Actions）：
 
 <!-- 在项目根目录运行 python3 test/overall_test.py，插入本次运行的终端截图。
 请包含 Part A 的完整结果、Part B 各 case 的状态和性能数据，以及各自的百分制分数；可分成多张图片。
 也可以分别运行 python3 test/csim_test.py 和 python3 test/gemm_test.py 后截图。
+若使用 GitHub Actions，请提供对应提交的运行链接，以及摘要中的分数和日志中的各 case 结果截图。
 报告中的数据必须对应最终提交的代码，不需要登录任何评测网站。 -->
 
 <!-- 最终在知是平台提交 csim.c（或 csim.cpp）、gemm.cpp 和本报告（Markdown 或 PDF 二选一），共三个文件。 -->

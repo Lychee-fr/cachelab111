@@ -24,10 +24,25 @@ python3 test/overall_test.py
 
 评测使用共享的 trace 和结果路径，请勿在同一目录同时运行多个评测进程。复测不同学生时，每人使用一份新的模板副本，只替换该学生的两份源代码。
 
+## GitHub Actions
+
+`.github/workflows/autograding.yml` 在 push 或手动触发时，用两个独立任务分别运行：
+
+```bash
+python3 test/actions_test.py --part A
+python3 test/actions_test.py --part B
+```
+
+`actions_test.py` 直接调用上述本地评测函数，将百分制分数写入 `GITHUB_STEP_SUMMARY`，在 Actions 运行摘要中展示；Part B 继续使用 `grading.py` 中的计分规则。完整报告保留在任务日志中，没有额外的总分输出。未设置该环境变量时，只输出本地报告。
+
+两个任务各自使用 Ubuntu 24.04 x86-64，互不共享构建和结果文件；一个失败时，另一个仍会完成。每个任务最多运行 15 分钟，同一分支新的 push 会取消未完成的旧任务。工作流只需仓库读取权限，无需学生配置任何密钥或 Secrets。fork 的首次启用步骤见[实验 README](../README.md#github-actions-自动评测)。
+
+与本地入口相同，退出码 0（Actions 绿色）表示成功完成评测，并不表示全部测试点通过或得满分。编译、基本合法性检查、参考程序或 baseline 出错时，任务失败并在摘要提示未产生分数。Actions 结果供学生自测，助教应使用课程原版框架复测知是平台提交的文件。
+
 ## 助教回归检查
 
 ```bash
-python3 -m unittest discover -s test -p 'test_local_grading.py' -v
+python3 -m unittest discover -s test -p 'test_*.py' -v
 bash test/test.sh
 ```
 
