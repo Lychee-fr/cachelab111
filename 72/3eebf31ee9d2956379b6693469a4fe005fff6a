@@ -1,0 +1,28 @@
+printTrace.cpp
+  s_4cd8b9a057af58::t_b639a83e157f2a 7,43,45
+test/test_local_grading.py
+  s_4cd8b9a057af58::t_aae942935dd064 165,167-231
+  s_4cd8b9a057af58::t_de6477cf108ef7 166
+demo.cpp
+  s_4cd8b9a057af58::t_b639a83e157f2a 146
+common.h
+  s_4cd8b9a057af58::t_b639a83e157f2a 161,163-165,184,214,429-460,464,469,474-475,480-481,487,492-493,498-499,505,510-511,516-517,521,523-524,528,530,538,540,548,550,554,556-557,561,563-564,569,571,575,577-578,582,584-585,657,664
+README.md
+  s_4cd8b9a057af58::t_b639a83e157f2a 361
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "723eebf31ee9d2956379b6693469a4fe005fff6a",
+  "prompts": {},
+  "sessions": {
+    "s_4cd8b9a057af58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c33d-7094-72d1-99a1-8d861e8eb696",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Schrieffer <xjack875@gmail.com>"
+    }
+  }
+}
