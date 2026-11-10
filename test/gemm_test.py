@@ -8,14 +8,16 @@ from grading import perf_rate, weighted_speedup
 from utils import (
     EvaluationError,
     check_environment,
+    format_score,
     format_table,
+    print_section,
     read_results_file,
     run_command,
 )
 
 
 def output_results(results: list, baselines: list):
-    table = [["case", "status", "miss_cache", "miss_reg", "latency", "speedup"]]
+    table = [["Case", "Status", "miss_cache", "miss_reg", "Latency", "Speedup"]]
     for case, miss_cache, miss_reg, latency, speedup in results:
         if latency > 0:
             table.append([case, "OK", miss_cache, miss_reg, latency, f"{speedup:.4f}"])
@@ -24,9 +26,12 @@ def output_results(results: list, baselines: list):
     speedups = [result[-1] for result in results]
     weighted = weighted_speedup(speedups)
     rate = perf_rate(speedups)
-    print(format_table(table))
-    print(f"Weighted Speedup: {weighted:.4f}")
-    print(f"Part B performance score: {100 * rate:.2f} / 100")
+    print(format_table(table, ["left", "center", "right", "right", "right", "right"], status_column=1))
+    print()
+    print(format_score([
+        f"Weighted Speedup: {weighted:.4f}",
+        f"Part B performance score: {100 * rate:.2f} / 100",
+    ], full_score=rate == 1))
 
     # Keep the existing numeric layout for .overall_results consumers.
     # A failed case has -1 for its three unavailable measurements.
@@ -54,6 +59,8 @@ def test_gemm_case(case: str) -> tuple:
 
 
 def test_gemm(baseline_only=False):
+    title = "Part B - Matrix Multiplication"
+    print_section(title + " (baseline)" if baseline_only else title)
     check_environment()
     # Part B uses csim-ref and must also work before Part A is implemented.
     run_command(["make", "-j", "printTrace"], timeout=120)

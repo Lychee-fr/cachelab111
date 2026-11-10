@@ -20,7 +20,9 @@ python3 test/overall_test.py
 
 `grading.py` 统一定义 Part B 权重与得分率。默认满分线为综合加速比 8，百分制性能分为 `100 * 得分率`，实际 Part B 性能分为 `40 * 得分率`。报告和代码风格由助教人工评分。
 
-`overall_test.py` 依次输出 Part A 和 Part B 的报告，两个部分均采用百分制，不另外输出折算分或总分。它还会写入 `.overall_results`：第一行是 Part A 的通过数量和百分制分数；第二行是 case0 至 case3 各四项 `(miss_cache, miss_reg, latency, baseline)`，最后一项为综合加速比。失败 case 的前三项为 `-1`，其加速比按 0 处理。脚本开始时清除旧结果，评测完成后再写入，避免把上次结果误当成本次成绩。
+`overall_test.py` 依次输出 Part A 和 Part B 的报告，以标题和空行分隔；独立入口使用同样的表格和得分框。两个部分均采用百分制，不另外输出折算分或总分。它还会写入 `.overall_results`：第一行是 Part A 的通过数量和百分制分数；第二行是 case0 至 case3 各四项 `(miss_cache, miss_reg, latency, baseline)`，最后一项为综合加速比。失败 case 的前三项为 `-1`，其加速比按 0 处理。脚本开始时清除旧结果，评测完成后再写入，避免把上次结果误当成本次成绩。
+
+显示样式由 `utils.py` 实现，仅使用 Python 标准库。表格与得分框在终端中会突出状态与分数，重定向到文件或设置 `NO_COLOR=1` 时关闭颜色；不支持 Unicode 的输出编码会使用 ASCII 边框。Part A 表格中的 `h/m/e` 依次表示 hits、misses、evictions，trace 名称相对于 `traces/` 目录。需要读取原始数值时请使用 `.overall_results`，不要解析终端装饰或颜色。
 
 评测使用共享的 trace 和结果路径，请勿在同一目录同时运行多个评测进程。复测不同学生时，每人使用一份新的模板副本，只替换该学生的两份源代码。
 

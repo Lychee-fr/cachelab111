@@ -15,6 +15,7 @@ def main():
     results_file.unlink(missing_ok=True)
     try:
         results_csim = test_csim()
+        print("\n", flush=True)
         results_gemm = test_gemm()
     except EvaluationError as error:
         print(f"Evaluation failed: {error}", file=sys.stderr)

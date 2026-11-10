@@ -3,6 +3,7 @@
 from contextlib import redirect_stdout
 import io
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -242,7 +243,7 @@ int main() {
         self.assertEqual(part_a, [0, 0])
         expected = [value for row in BASELINES for value in (*row, row[-1])] + [1]
         self.assertEqual(part_b, expected)
-        self.assertTrue(output.rstrip().endswith("Part B performance score: 0.00 / 100"))
+        self.assertIn("Part B performance score: 0.00 / 100", output)
         for removed in (
             "Part B performance contribution:", "Part A:", "Part B performance:",
             "Automatic subtotal:", "Report/style points", "Raw results saved",
@@ -255,7 +256,10 @@ int main() {
         for filename in (".access_key", ".last_submit_time"):
             (self.work / filename).write_text("unused legacy value")
         output = self.evaluate("gemm_test.py", "--baseline")
-        rows = [line.split("|") for line in output.splitlines() if "_baseline" in line]
+        rows = [
+            line.strip().strip("│|").replace("│", "|").split("|")
+            for line in output.splitlines() if "_baseline" in line
+        ]
         self.assertEqual(len(rows), 4)
         for row, expected in zip(rows, BASELINES):
             self.assertEqual(tuple(int(value) for value in row[2:5]), expected)
@@ -302,7 +306,7 @@ int main() {
         (self.work / "csim").touch()
         output = self.evaluate("csim_test.py")
         self.assertIn("Score: 100.00", output)
-        self.assertEqual(sum(line.startswith("OK ") for line in output.splitlines()), 20)
+        self.assertEqual(sum(bool(re.search(r"[│|]\s*OK\s*[│|]$", line)) for line in output.splitlines()), 20)
 
     def test_wrong_answers_and_register_overflow_continue(self):
         self.inject_case(0, "return;")
@@ -345,7 +349,7 @@ int main() {
         output = self.evaluate("csim_test.py")
         self.assertIn("Invalid .csim_results:", output)
         self.assertIn("Score: 0.00", output)
-        self.assertFalse(any(line.startswith("OK ") for line in output.splitlines()))
+        self.assertFalse(any(re.search(r"[│|]\s*OK\s*[│|]$", line) for line in output.splitlines()))
 
     def test_removed_flags_are_rejected_before_running_tests(self):
         for script, flag in [
