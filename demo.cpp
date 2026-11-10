@@ -143,7 +143,7 @@ void demo(ptr_reg A, ptr_reg B, ptr_reg C, ptr_reg buffer) {
     // 我们不推荐你利用这个漏洞，你可以写成这样：
     reg tmp = b - a;  // actually, you need a temporary register
     reg total2 = c - a;
-    total2 = tmp * total;
+    total2 = tmp * total2;
     // 但是，因为在 cachelab 中，助教没有想到可以利用这个漏洞的场景
     // 多数情况下你写出来的式子是可以被编译器优化成不需要临时寄存器的，所以我们为了多数情况的方便，保留了这个漏洞
     // 比如你可能会频繁地写 i * n + j，如果我们禁止了多元计算，你的代码会变得很丑陋

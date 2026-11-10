@@ -164,6 +164,73 @@ int main() {
 }
 ''')
 
+    def test_pointer_operations_work_at_the_register_limit(self):
+        self.run_register_fixture('''
+int main() {
+    int data[8] = {};
+    {
+        ptr_reg p(data), q(data + 4);
+        reg offset = 2;
+        reg used[33];
+        if (get_current_reg_count() != 36) return 1;
+        if (&(++p) != &p || p.ptr_ != data + 1) return 2;
+        if (&(--p) != &p || p.ptr_ != data) return 3;
+        p += 2;
+        p -= 2;
+        p += offset;
+        p -= offset;
+        p += std::move(offset);
+        p -= std::move(offset);
+        ++(++p);
+        --(--p);
+        if (p.ptr_ != data || q - p != 4 || p - q != -4) return 4;
+        if (p == q || !(p != q) || !(p == p)) return 5;
+        if (!(p < q) || p > q || !(q > p) || q < p) return 6;
+        if (!(p <= q) || !(q >= p) || !(p <= p) || !(p >= p)) return 7;
+        if (q <= p || p >= q) return 8;
+        if (get_current_reg_count() != 36 || get_max_reg_count() != 36) return 9;
+    }
+    return get_current_reg_count() != 0;
+}
+''')
+
+    def test_moved_from_values_are_rejected_without_leaking_registers(self):
+        self.run_register_fixture('''
+int main() {
+    auto rejected = [](auto operation) {
+        try { operation(); return false; }
+        catch (const InactiveRegisterException &) { return true; }
+    };
+    int data[4] = {};
+    {
+        ptr_reg p(data);
+        reg old = 1;
+        reg live = std::move(old);
+        if (!rejected([&] { reg copy(old); })) return 1;
+        if (!rejected([&] { live = old; })) return 2;
+        if (!rejected([&] { (void)static_cast<int>(old); })) return 3;
+        if (!rejected([&] { p[0] = old; })) return 4;
+        if (!rejected([&] { p[0] = std::move(old); })) return 5;
+        if (!rejected([&] { (void)p[old]; })) return 6;
+        if (!rejected([&] { p += old; })) return 7;
+        if (!rejected([&] { (void)(p + old); })) return 8;
+        ptr_reg q = std::move(p);
+        if (!rejected([&] { ptr_reg copy(p); })) return 9;
+        if (!rejected([&] { q = p; })) return 10;
+        if (!rejected([&] { (void)*p; })) return 11;
+        if (!rejected([&] { (void)p[0]; })) return 12;
+        if (!rejected([&] { ++p; })) return 13;
+        if (!rejected([&] { p += 1; })) return 14;
+        if (!rejected([&] { (void)(p + 1); })) return 15;
+        if (!rejected([&] { (void)(q - p); })) return 16;
+        if (!rejected([&] { (void)(p == q); })) return 17;
+        if (get_current_reg_count() != 2 || get_max_reg_count() != 2) return 18;
+        if (live != 1 || q.ptr_ != data || data[0] != 0) return 19;
+    }
+    return get_current_reg_count() != 0;
+}
+''')
+
     def raw_results(self):
         lines = (self.work / ".overall_results").read_text().splitlines()
         self.assertEqual(len(lines), 2)

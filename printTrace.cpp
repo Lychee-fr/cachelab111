@@ -4,7 +4,7 @@ int main(int argc, char **argv)
 {
   if (argc != 2)
   {
-    throw std::runtime_error("Usage: ./printTrace case0/case1/case2/case2");
+    throw std::runtime_error("Usage: ./printTrace case0/case1/case2/case3 (or case0_baseline/.../case3_baseline)");
   }
   if (std::string(argv[1]) == "case0")
   {
@@ -40,6 +40,6 @@ int main(int argc, char **argv)
   }
   else
   {
-    throw std::runtime_error("Usage: ./printTrace case0/case1/case2/case2");
+    throw std::runtime_error("Usage: ./printTrace case0/case1/case2/case3 (or case0_baseline/.../case3_baseline)");
   }
 }

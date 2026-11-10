@@ -158,8 +158,11 @@ public:
   }
 
   EXPLICIT_HINT BaseRegisterWrapper(const BaseRegisterWrapper<T> &other)
-      : reg_(other.reg_), state_(RegisterWrapperState::ACTIVE), reg_id_(cachelab_detail::find_reg())
+      : reg_(other.reg_), state_(RegisterWrapperState::ACTIVE), reg_id_(-1)
   {
+    // Validate before allocating so a rejected copy does not leak a register.
+    other.check_valid();
+    reg_id_ = cachelab_detail::find_reg();
   }
 
   EXPLICIT_HINT BaseRegisterWrapper(BaseRegisterWrapper<T> &&other)
@@ -178,6 +181,7 @@ public:
 
   operator int() const
   {
+    check_valid();
     return reg_;
   }
 
@@ -207,6 +211,7 @@ public:
   BaseRegisterWrapper<T> &operator=(const BaseRegisterWrapper<T> &other)
   {
     check_valid();
+    other.check_valid();
     reg_ = other.reg_;
     return *this;
   }
@@ -421,62 +426,108 @@ public:
   }
 
   using BaseRegisterWrapper<int>::operator=;
-  using BaseRegisterWrapper<int>::operator==;
-  using BaseRegisterWrapper<int>::operator<;
-  using BaseRegisterWrapper<int>::operator>;
-  using BaseRegisterWrapper<int>::operator<=;
-  using BaseRegisterWrapper<int>::operator>=;
+
+  // The base class reserves a register; pointer comparisons use the address.
+  bool operator==(const PtrWrapper<T> &other) const
+  {
+    check_valid();
+    other.check_valid();
+    return ptr_ == other.ptr_;
+  }
+  bool operator<(const PtrWrapper<T> &other) const
+  {
+    check_valid();
+    other.check_valid();
+    return ptr_ < other.ptr_;
+  }
+  bool operator>(const PtrWrapper<T> &other) const
+  {
+    check_valid();
+    other.check_valid();
+    return ptr_ > other.ptr_;
+  }
+  bool operator<=(const PtrWrapper<T> &other) const
+  {
+    check_valid();
+    other.check_valid();
+    return ptr_ <= other.ptr_;
+  }
+  bool operator>=(const PtrWrapper<T> &other) const
+  {
+    check_valid();
+    other.check_valid();
+    return ptr_ >= other.ptr_;
+  }
 
   MemoryWrapper<T> operator*() const
   {
+    check_valid();
     return MemoryWrapper<T>(ptr_);
   }
   MemoryWrapper<T> operator[](int offset) const
   {
+    check_valid();
     return MemoryWrapper<T>(ptr_ + offset);
   }
   MemoryWrapper<T> operator[](const RegisterWrapper<T> &offset) const
   {
+    check_valid();
+    offset.check_valid();
     return MemoryWrapper<T>(ptr_ + offset.reg_);
   }
   MemoryWrapper<T> operator[](const RegisterWrapper<T> &&offset) const
   {
+    check_valid();
+    offset.check_valid();
     return MemoryWrapper<T>(ptr_ + offset.reg_);
   }
 
   PtrWrapper<T> operator+(int offset) const
   {
+    check_valid();
     return PtrWrapper<T>(ptr_ + offset);
   }
   PtrWrapper<T> operator+(const RegisterWrapper<T> &offset) const
   {
+    check_valid();
+    offset.check_valid();
     return PtrWrapper<T>(ptr_ + offset.reg_);
   }
   PtrWrapper<T> operator+(const RegisterWrapper<T> &&offset) const
   {
+    check_valid();
+    offset.check_valid();
     return PtrWrapper<T>(ptr_ + offset.reg_);
   }
 
   PtrWrapper<T> operator-(int offset) const
   {
+    check_valid();
     return PtrWrapper<T>(ptr_ - offset);
   }
   PtrWrapper<T> operator-(const RegisterWrapper<T> &offset) const
   {
+    check_valid();
+    offset.check_valid();
     return PtrWrapper<T>(ptr_ - offset.reg_);
   }
   PtrWrapper<T> operator-(const RegisterWrapper<T> &&offset) const
   {
+    check_valid();
+    offset.check_valid();
     return PtrWrapper<T>(ptr_ - offset.reg_);
   }
 
-  T operator-(PtrWrapper<T> other) const
+  T operator-(const PtrWrapper<T> &other) const
   {
+    check_valid();
+    other.check_valid();
     return ptr_ - other.ptr_;
   }
 
-  PtrWrapper<T> operator++()
+  PtrWrapper<T> &operator++()
   {
+    check_valid();
     ptr_++;
     return *this;
   }
@@ -484,8 +535,9 @@ public:
   // PtrWrapper<T> operator++(int) {
   // }
 
-  PtrWrapper<T> operator--()
+  PtrWrapper<T> &operator--()
   {
+    check_valid();
     ptr_--;
     return *this;
   }
@@ -493,34 +545,44 @@ public:
   // PtrWrapper<T> operator--(int) {
   // }
 
-  PtrWrapper<T> operator+=(int offset)
+  PtrWrapper<T> &operator+=(int offset)
   {
+    check_valid();
     ptr_ += offset;
     return *this;
   }
-  PtrWrapper<T> operator+=(const RegisterWrapper<T> &offset)
+  PtrWrapper<T> &operator+=(const RegisterWrapper<T> &offset)
   {
+    check_valid();
+    offset.check_valid();
     ptr_ += offset.reg_;
     return *this;
   }
-  PtrWrapper<T> operator+=(const RegisterWrapper<T> &&offset)
+  PtrWrapper<T> &operator+=(const RegisterWrapper<T> &&offset)
   {
+    check_valid();
+    offset.check_valid();
     ptr_ += offset.reg_;
     return *this;
   }
 
-  PtrWrapper<T> operator-=(int offset)
+  PtrWrapper<T> &operator-=(int offset)
   {
+    check_valid();
     ptr_ -= offset;
     return *this;
   }
-  PtrWrapper<T> operator-=(const RegisterWrapper<T> &offset)
+  PtrWrapper<T> &operator-=(const RegisterWrapper<T> &offset)
   {
+    check_valid();
+    offset.check_valid();
     ptr_ -= offset.reg_;
     return *this;
   }
-  PtrWrapper<T> operator-=(const RegisterWrapper<T> &&offset)
+  PtrWrapper<T> &operator-=(const RegisterWrapper<T> &&offset)
   {
+    check_valid();
+    offset.check_valid();
     ptr_ -= offset.reg_;
     return *this;
   }
@@ -592,12 +654,14 @@ public:
 
   const RegisterWrapper<T> &operator=(const RegisterWrapper<T> &other)
   {
+    other.check_valid();
     *ptr_ = other.reg_;
     PtrWrapper<T>::access_logs.push_back({MemoryAccessType::WRITE, ptr_, other.reg_id_});
     return other;
   }
   const RegisterWrapper<T> &operator=(const RegisterWrapper<T> &&other)
   {
+    other.check_valid();
     *ptr_ = other.reg_;
     PtrWrapper<T>::access_logs.push_back({MemoryAccessType::WRITE, ptr_, other.reg_id_});
     return other;
