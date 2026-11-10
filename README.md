@@ -51,7 +51,7 @@
 
 在正式开始写本 Lab 前，请务必知晓以下实验须知：
 
-- 本实验支持**完全本地评测**，也可以在自己的 GitHub 仓库中通过 Actions 自动评测，两种方式使用同一套脚本。环境准备好后，本地测试不需要联网、账号或密钥，也不会上传代码。Part B 的成绩**按综合加速比计算**，规则见下文 Part B 的“测试与分数”。
+- 本实验采用**完全本地评测**。环境准备好后，运行测试不需要联网、账号或密钥，也不会上传代码。Part B 的成绩**按综合加速比计算**，规则见下文 Part B 的“测试与分数”。
 
 - 请在截止时间前向[知是平台](https://okcheese.com)提交代码和报告，具体文件要求见“提交”。本地评测只检查当前目录中的代码，不会替你提交作业。
 
@@ -101,19 +101,6 @@ python3 test/overall_test.py    # 两部分一起评测，并保存 .overall_res
 ```
 
 脚本会自动编译相应部分。Part A 和 Part B 可以分别测试，互不依赖对方的实现。综合测试依次输出这两份报告：Part A 的正确性分数和 Part B 的性能分数均为百分制。报告、代码风格及 Part B 的报告补分由助教评阅。
-
-### GitHub Actions 自动评测
-
-1. 在 [课程仓库](https://github.com/RUCICS2026/cachelab2026) 页面点击 **Fork**，把仓库复制到自己的 GitHub 账号下，然后克隆自己的仓库进行开发。
-2. 打开**自己仓库**的 **Actions** 标签页。GitHub 默认不运行 fork 中的工作流；首次使用时，按页面提示启用工作流（通常为 **I understand my workflows, go ahead and enable them**）。
-3. 将修改后的代码 commit 并 push 到自己的仓库，便会触发 **CacheLab Autograding**。只在本地 commit 不会触发；刚创建 fork 时也不会自动评分。启用后，可以在 **Actions → CacheLab Autograding → Run workflow** 中手动测试当前分支。
-4. 打开对应提交的运行记录，在 **Summary** 中查看 Part A 的正确性分数、Part B 的性能分数和综合加速比。两个分数均为百分制；点击 **Part A / Part B → Evaluate Part A / Evaluate Part B** 可以查看各测试点及错误信息。
-
-两个部分在独立的 Ubuntu 24.04 x86-64 环境中运行，某个部分编译失败不会影响另一个部分。Part B 的错误 case 仍按加速比 0 处理，其余 case 继续评测。**绿色表示评测流程完成，不代表满分或所有 case 正确**；红色通常表示编译、合法性检查或评测环境出错，请查看日志。连续 push 时，同一分支尚未完成的旧评测会被取消，以最新提交的结果为准。
-
-无需配置 Secrets、密钥或 GitHub Classroom，也不用向课程仓库发起 Pull Request。Actions 用于自测，正式作业仍须向知是平台提交；助教使用课程原版评测框架复测提交文件，不以学生仓库中可修改的工作流结果作为最终成绩。
-
-> 当前课程仓库公开，因此 fork 及其中推送的代码也会公开，请勿在仓库中上传个人信息。若课程要求解答保密，请使用本地评测，并按助教另行说明的仓库方式操作。参见 GitHub 关于 [fork 中启用工作流](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflows-in-forked-repositories) 和 [fork 可见性](https://docs.github.com/en/pull-requests/reference/forks#visibility-of-forks) 的说明。
 
 ## 问题简述
 
@@ -585,7 +572,7 @@ $$s = \min\left(1,\ \max\left(0,\ \frac{W - 1}{W_{\mathrm{full}} - 1}\right)\rig
 2. `gemm.cpp`。
 3. 实验报告，Markdown 或 PDF 二选一。
 
-无需同时提交报告的两种格式，也无需提交评测脚本、可执行文件或 trace 文件。向自己的 GitHub 仓库 push 可触发 Actions 自测，但不算向知是平台提交作业。请在上传前对最终代码重新运行本地评测或 Actions，并确认报告中的数据与这份代码一致。作业是否提交成功及提交时间以知是平台的记录为准。
+无需同时提交报告的两种格式，也无需提交评测脚本、可执行文件或 trace 文件。本次作业不需要向 GitHub 提交。请在上传前对最终代码重新运行本地评测，并确认报告中的数据与这份代码一致。作业是否提交成功及提交时间以知是平台的记录为准。
 
 ### 报告
 

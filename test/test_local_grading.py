@@ -2,7 +2,6 @@
 
 from contextlib import redirect_stdout
 import io
-import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -227,28 +226,6 @@ int main() {
     def test_part_a_accepts_cpp_filename(self):
         (self.work / "csim.c").rename(self.work / "csim.cpp")
         self.assertIn("Score: 0.00", self.evaluate("csim_test.py"))
-
-    def test_actions_part_a_uses_cpp_and_ignores_broken_part_b(self):
-        (self.work / "csim.c").rename(self.work / "csim.cpp")
-        (self.work / "gemm.cpp").write_text("#error Part B is unfinished\n")
-        summary = self.work / "summary.md"
-        with patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(summary)}):
-            output = self.evaluate("actions_test.py", "--part", "A")
-        self.assertIn("Score: 0.00", output)
-        self.assertIn("Score: 0.00 / 100", summary.read_text())
-        self.assertFalse((self.work / "printTrace").exists())
-
-    def test_actions_part_b_ignores_broken_part_a_and_continues_after_wrong_case(self):
-        (self.work / "csim.c").write_text("#error Part A is unfinished\n")
-        self.inject_case(1, "return;")
-        summary = self.work / "summary.md"
-        with patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(summary)}):
-            output = self.evaluate("actions_test.py", "--part", "B")
-        self.assertIn("Weighted Speedup: 0.7000", output)
-        self.assertIn("Performance score: 0.00 / 100", summary.read_text())
-        self.assertIn("| case1 | ERROR | 0.0000 |", summary.read_text())
-        self.assertIn("| case3 | OK | 1.0000 |", summary.read_text())
-        self.assertFalse((self.work / "csim").exists())
 
     def test_reference_as_correct_part_a_fixture_scores_full_marks(self):
         # An oracle executable is sufficient to test score aggregation; no solution
