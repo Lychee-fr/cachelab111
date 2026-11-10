@@ -1,0 +1,23 @@
+README.md
+  s_4cd8b9a057af58::t_4da81069ccddc9 54,575
+report/report.md
+  s_4cd8b9a057af58::t_b30f2cbcf7985b 13
+test/README.md
+  s_4cd8b9a057af58::t_95441dc23ff2c3 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ed2c78ee6689cfb4c56c77e5259074cb5e9563d0",
+  "prompts": {},
+  "sessions": {
+    "s_4cd8b9a057af58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c33d-7094-72d1-99a1-8d861e8eb696",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Schrieffer <xjack875@gmail.com>"
+    }
+  }
+}
