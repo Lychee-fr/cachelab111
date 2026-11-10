@@ -1,0 +1,99 @@
+.gitignore
+  s_4cd8b9a057af58::t_4dc728752632f6 1-19
+Makefile
+  s_4cd8b9a057af58::t_2d67e6beb3eef4 1-57
+README.md
+  s_4cd8b9a057af58::t_6f057d5bce4046 1-679
+cachelab.h
+  s_4cd8b9a057af58::t_d46db0acccc4fb 1-6
+common.h
+  s_4cd8b9a057af58::t_df3f4205037321 1-945
+csim.c
+  s_4cd8b9a057af58::t_9beb2a286ac52c 1-39
+demo.cpp
+  s_4cd8b9a057af58::t_1d406e4713efec 1-170
+gemm.cpp
+  s_4cd8b9a057af58::t_e5e5b0210dff4a 1-122
+gemm.h
+  s_4cd8b9a057af58::t_a239ba349517dc 1-13
+gemm_baseline.cpp
+  s_4cd8b9a057af58::t_d44746a37006f3 1-121
+matrix.cpp
+  s_4cd8b9a057af58::t_7a58a29260c884 1-110
+matrix.h
+  s_4cd8b9a057af58::t_9f0d878f5cba7e 1-17
+printTrace.cpp
+  s_4cd8b9a057af58::t_b9dc8fbecd1e4d 1-45
+report/README.md
+  s_4cd8b9a057af58::t_6bc0c30c3d1723 1-70
+report/report.md
+  s_4cd8b9a057af58::t_97330648123c16 1-116
+simulator.cpp
+  s_4cd8b9a057af58::t_c92500c823bac7 1-114
+simulator.h
+  s_4cd8b9a057af58::t_88a5647b56487c 1-28
+test/README.md
+  s_4cd8b9a057af58::t_687e9ae45f4edb 1-36
+test/csim_test.py
+  s_4cd8b9a057af58::t_8acd4c22fffded 1-70
+test/fake_include/cachelab.h
+  s_4cd8b9a057af58::t_2c607e0febec17 1-32
+test/gemm_test.py
+  s_4cd8b9a057af58::t_3d4bfe8b05ea16 1-97
+test/grading.py
+  s_4cd8b9a057af58::t_90d1d151120400 1-39
+test/legality_test_example1.cpp
+  s_4cd8b9a057af58::t_4ddb993d59b6e7 1-246
+test/legality_test_example2.cpp
+  s_4cd8b9a057af58::t_b295cd35c740fa 1-35
+test/legality_test_example3.cpp
+  s_4cd8b9a057af58::t_f0316afd130d94 1-36
+test/legality_test_example4.cpp
+  s_4cd8b9a057af58::t_49f1f9555c16bf 1-36
+test/overall_test.py
+  s_4cd8b9a057af58::t_46389776838314 1-31
+test/test.sh
+  s_4cd8b9a057af58::t_ec75110afedd99 1-31
+test/test_local_grading.py
+  s_4cd8b9a057af58::t_539cfef3332805 1-297
+test/utils.py
+  s_4cd8b9a057af58::t_09f9241b29dc96 1-94
+traces/README.md
+  s_4cd8b9a057af58::t_c432e0dd7710ed 1-3
+traces/dave.trace
+  s_4cd8b9a057af58::t_3e5a91518e5771 1-5
+traces/dave.trace.old
+  s_4cd8b9a057af58::t_5999f4feac670a 1-5
+traces/long.trace
+  s_4cd8b9a057af58::t_3ac6a4c1a816f3 1-267988
+traces/long.trace.old
+  s_4cd8b9a057af58::t_fb5e8887e95fd0 1-267988
+traces/trans.trace
+  s_4cd8b9a057af58::t_c9617df4ce888b 1-218
+traces/trans.trace.old
+  s_4cd8b9a057af58::t_bd5677bf8fb9d1 1-218
+traces/yi.trace
+  s_4cd8b9a057af58::t_334cad8f9e56f8 1-7
+traces/yi.trace.old
+  s_4cd8b9a057af58::t_4eef250c9235f3 1-7
+traces/yi2.trace
+  s_4cd8b9a057af58::t_d0eff0e7214294 1-16
+traces/yi2.trace.old
+  s_4cd8b9a057af58::t_b5a96ee8528d5d 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "16f4ad6ac4709295c5a75bc9d8af8e6d43abebe1",
+  "prompts": {},
+  "sessions": {
+    "s_4cd8b9a057af58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c33d-7094-72d1-99a1-8d861e8eb696",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Schrieffer <xjack875@gmail.com>"
+    }
+  }
+}
